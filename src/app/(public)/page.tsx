@@ -16,12 +16,12 @@ export default async function HomePage() {
 
   return (
     <div>
-      {/* форма нового поста */}
+      
       <div className="border-b border-neutral-800 px-4 py-3">
         <NewPostForm />
       </div>
 
-      {/* список постов */}
+      
       <Posts posts={posts} />
     </div>
   );

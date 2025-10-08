@@ -2,7 +2,7 @@
 "use client";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
-import { NewPost } from "@/hooks/Usepost";
+import { NewPost } from "@/actions/create-post";
 import { useRouter } from "next/navigation";
 
 

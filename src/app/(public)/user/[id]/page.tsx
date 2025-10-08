@@ -1,19 +1,39 @@
-import { prisma } from "@/utils/prisma";
-import Profile from "@/components/Profile";
-export default async function UserPage({ params }: { params: { id: string } }) {
-  // Загружаем пользователя и его посты
+import Profile from "@/components/Profile"
+import { prisma } from "@/utils/prisma"
+
+type Props = {
+  params: { id: string }
+}
+
+import { Prisma } from "@prisma/client";
+
+export type UserWithRelations = Prisma.UserGetPayload<{
+  include: {
+    posts: {
+      include: {
+        likes: true;
+        author: true;
+      };
+    };
+    likes: true;
+  };
+}>;
+
+export default async function Profile_Page({ params }: Props) {
   const user = await prisma.user.findUnique({
     where: { id: params.id },
     include: {
       posts: {
-        orderBy: { createdAt: "desc" },
+        include: {
+          likes: true,
+          author: true,
+        },
       },
+      likes: true,
     },
   });
 
-  if (!user) {
-    return <div className="text-center text-gray-400 mt-10">Пользователь не найден</div>;
-  }
+  if (!user) return <div>Пользователь не найден</div>;
 
   return <Profile user={user} />;
 }
